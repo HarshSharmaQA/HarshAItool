@@ -30,7 +30,7 @@ import NewsletterSection from '@/components/page-blocks/newsletter-section';
 import LeadershipSection from '@/components/page-blocks/leadership-section';
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 const blockComponents: { [key: string]: React.ComponentType<any> } = {
@@ -62,7 +62,7 @@ export async function generateStaticParams() {
     }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const awaitedParams = await params;
   const page = await getPageBySlug(awaitedParams.slug);
 
@@ -99,7 +99,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return metadata;
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const awaitedParams = await params;
   const page = await getPageBySlug(awaitedParams.slug);
 
