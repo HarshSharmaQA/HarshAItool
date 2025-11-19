@@ -147,7 +147,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return metadata;
 }
 
-export default async function PostPage({ params }: { params: { slug: string } }) {
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const awaitedParams = await params;
   const post = await getPostBySlug(awaitedParams.slug);
   

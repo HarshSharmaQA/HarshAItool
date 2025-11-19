@@ -8,7 +8,7 @@ export const metadata = {
   title: "Edit Page",
 };
 
-export default async function EditPage({ params }: { params: { id: string } }) {
+export default async function EditPage({ params }: { params: Promise<{ id: string }> }) {
   const awaitedParams = await params;
   const pageData = await getPage(awaitedParams.id);
 

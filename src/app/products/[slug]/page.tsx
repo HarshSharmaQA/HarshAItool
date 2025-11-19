@@ -1,5 +1,3 @@
-
-
 import { getProductBySlug, getSettings, getProducts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -50,8 +48,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return metadata;
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const product = await getProductBySlug(params.slug);
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const awaitedParams = await params;
+  const product = await getProductBySlug(awaitedParams.slug);
   
   if (!product || product.status === 'draft') {
     notFound();

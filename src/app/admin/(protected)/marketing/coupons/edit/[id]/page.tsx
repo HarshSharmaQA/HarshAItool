@@ -8,8 +8,9 @@ export const metadata = {
   title: "Edit Coupon",
 };
 
-export default async function EditCouponPage({ params }: { params: { id: string } }) {
-  const couponData = await getCoupon(params.id);
+export default async function EditCouponPage({ params }: { params: Promise<{ id: string }> }) {
+  const awaitedParams = await params;
+  const couponData = await getCoupon(awaitedParams.id);
 
   if (!couponData) {
     notFound();

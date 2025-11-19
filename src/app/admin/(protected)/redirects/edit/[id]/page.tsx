@@ -8,7 +8,7 @@ export const metadata = {
   title: "Edit Redirect",
 };
 
-export default async function EditRedirectPage({ params }: { params: { id: string } }) {
+export default async function EditRedirectPage({ params }: { params: Promise<{ id: string }> }) {
   const awaitedParams = await params;
   const redirectData = await getRedirect(awaitedParams.id);
 

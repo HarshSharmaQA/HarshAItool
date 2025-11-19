@@ -8,8 +8,9 @@ export const metadata = {
   title: "Edit Widget",
 };
 
-export default async function EditWidgetPage({ params }: { params: { id: string } }) {
-  const widgetData = await getWidget(params.id);
+export default async function EditWidgetPage({ params }: { params: Promise<{ id: string }> }) {
+  const awaitedParams = await params;
+  const widgetData = await getWidget(awaitedParams.id);
 
   if (!widgetData) {
     notFound();

@@ -8,7 +8,7 @@ export const metadata = {
   title: "Edit User",
 };
 
-export default async function EditUserPage({ params }: { params: { id: string } }) {
+export default async function EditUserPage({ params }: { params: Promise<{ id: string }> }) {
   const awaitedParams = await params;
   const userData = await getUser(awaitedParams.id);
 
