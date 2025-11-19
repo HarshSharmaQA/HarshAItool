@@ -1,0 +1,683 @@
+
+
+{
+    "entities": {
+        "user": {
+            "title": "User",
+            "description": "A user of the application.",
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "description": "The user's unique ID."
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The user's email address."
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "The user's display name."
+                },
+                "photoURL": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL of the user's profile picture."
+                },
+                "role": {
+                    "type": "string",
+                    "enum": ["admin", "user"],
+                    "description": "The user's role in the system."
+                },
+                "approved": {
+                    "type": "boolean",
+                    "description": "Whether the user has been approved by an admin."
+                }
+            },
+            "required": ["uid", "email"]
+        },
+        "pdf": {
+            "title": "PDF Document",
+            "description": "A PDF document for the gallery.",
+            "type": "object",
+            "properties": {
+                "title": { "type": "string" },
+                "fileUrl": { "type": "string", "format": "uri" },
+                "description": { "type": "string" },
+                "uploadDate": { "type": "string", "format": "date-time" },
+                "uploader": { "type": "string" },
+                "category": { "type": "string" }
+            },
+            "required": ["title", "fileUrl", "uploadDate", "uploader"]
+        },
+        "youtubeVideo": {
+            "title": "YouTube Video",
+            "description": "A YouTube video for the gallery.",
+            "type": "object",
+            "properties": {
+                "videoId": { "type": "string", "description": "The unique ID of the YouTube video." },
+                "title": { "type": "string" },
+                "description": { "type": "string" }
+            },
+            "required": ["videoId", "title"]
+        },
+        "page": {
+            "title": "Page",
+            "description": "A static page on the website.",
+            "type": "object",
+            "properties": {
+                "title": { "type": "string" },
+                "content": { "type": "string" },
+                "urlSlug": { "type": "string" },
+                "seoTitle": { "type": "string" },
+                "seoDescription": { "type": "string" },
+                "seoKeywords": { "type": "string" },
+                "canonicalUrl": { "type": "string" },
+                "status": {
+                    "type": "string",
+                    "enum": ["draft", "public"]
+                },
+                "customCss": {
+                    "type": "string"
+                },
+                "noIndex": { "type": "boolean" },
+                "customHeadContent": { "type": "string" },
+                "customSchema": { "type": "string" },
+                "faqs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "question": { "type": "string" },
+                            "answer": { "type": "string" }
+                        },
+                        "required": ["question", "answer"]
+                    }
+                },
+                "featuredImage": {
+                    "type": "object",
+                    "properties": {
+                        "url": { "type": "string" },
+                        "hint": { "type": "string" }
+                    }
+                },
+                "ctaTitle": { "type": "string" },
+                "ctaSubtitle": { "type": "string" },
+                "ctaText": { "type": "string" },
+                "ctaLink": { "type": "string" },
+                "blocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/entities/homePage/properties/blocks/items"
+                    }
+                }
+            },
+            "required": ["title", "content", "urlSlug", "status"]
+        },
+        "post": {
+            "title": "Blog Post",
+            "description": "A blog post.",
+            "type": "object",
+            "properties": {
+                "title": { "type": "string" },
+                "content": { "type": "string" },
+                "urlSlug": { "type": "string" },
+                "author": { "type": "string" },
+                "publishedAt": { "type": "string", "format": "date-time" },
+                "seoTitle": { "type": "string" },
+                "seoDescription": { "type": "string" },
+                "seoKeywords": { "type": "string" },
+                "canonicalUrl": { "type": "string" },
+                "noIndex": { "type": "boolean" },
+                "categories": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "description": "An array of category names for the blog post."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": ["draft", "public", "scheduled"]
+                },
+                "isFavorite": {
+                    "type": "boolean"
+                },
+                "isFeatured": {
+                    "type": "boolean"
+                },
+                "customCss": { "type": "string" },
+                "customHeadContent": { "type": "string" },
+                "customSchema": { "type": "string" },
+                "faqs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "question": { "type": "string" },
+                            "answer": { "type": "string" }
+                        },
+                        "required": ["question", "answer"]
+                    }
+                },
+                "featuredImage": {
+                    "type": "object",
+                    "properties": {
+                        "url": { "type": "string" },
+                        "hint": { "type": "string" }
+                    }
+                },
+                "showRelatedPosts": {
+                    "type": "boolean"
+                },
+                "relatedPostsSelection": {
+                    "type": "string",
+                    "enum": ["latest", "manual"]
+                },
+                "manualRelatedPosts": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "ctaTitle": { "type": "string" },
+                "ctaSubtitle": { "type": "string" },
+                "ctaText": { "type": "string" },
+                "ctaLink": { "type": "string" },
+                "blocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/entities/homePage/properties/blocks/items"
+                    }
+                }
+            },
+            "required": ["title", "content", "urlSlug", "author", "publishedAt", "status"]
+        },
+        "product": {
+            "title": "Product",
+            "description": "An e-commerce product.",
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "price": { "type": "number" },
+                "sku": { "type": "string" },
+                "status": { "type": "string", "enum": ["draft", "published"] },
+                "slug": { "type": "string" },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "url": { "type": "string" },
+                        "hint": { "type": "string" }
+                    }
+                },
+                "isFeatured": { "type": "boolean" },
+                "tags": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                }
+            },
+            "required": ["name", "description", "price", "status", "slug", "image"]
+        },
+        "order": {
+            "title": "Order",
+            "description": "An e-commerce order.",
+            "type": "object",
+            "properties": {
+                "userId": { "type": "string" },
+                "email": { "type": "string", "format": "email" },
+                "total": { "type": "number" },
+                "status": { "type": "string", "enum": ["pending", "shipped", "delivered", "cancelled"] },
+                "createdAt": { "type": "string", "format": "date-time" },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "productId": { "type": "string" },
+                            "name": { "type": "string" },
+                            "quantity": { "type": "number" },
+                            "price": { "type": "number" },
+                            "image": {
+                                "type": "object",
+                                "properties": {
+                                    "url": { "type": "string" },
+                                    "hint": { "type": "string" }
+                                }
+                            },
+                            "size": { "type": "string" },
+                            "color": { "type": "string" }
+                        },
+                        "required": ["productId", "name", "quantity", "price"]
+                    }
+                },
+                "shippingAddress": {
+                    "type": "object",
+                    "properties": {
+                        "name": { "type": "string" },
+                        "address1": { "type": "string" },
+                        "address2": { "type": "string" },
+                        "city": { "type": "string" },
+                        "state": { "type": "string" },
+                        "zip": { "type": "string" },
+                        "country": { "type": "string" },
+                        "phone": { "type": "string" }
+                    },
+                    "required": ["name", "address1", "city", "state", "zip", "country"]
+                },
+                "trackingNumber": { "type": "string" },
+                "shippingProvider": { "type": "string" },
+                "shippingProviderUrl": { "type": "string", "format": "uri" },
+                "couponCode": { "type": "string" },
+                "discount": { "type": "number" }
+            },
+            "required": ["email", "total", "status", "createdAt", "items"]
+        },
+        "adminMenu": {
+            "title": "Admin Menu",
+            "description": "A navigation menu for the admin dashboard.",
+            "type": "object",
+            "properties": {
+                "label": { "type": "string" },
+                "href": { "type": "string" },
+                "icon": { "type": "string" },
+                "order": { "type": "number" },
+                "external": { "type": "boolean" }
+            },
+            "required": ["label", "href", "icon", "order"]
+        },
+        "menu": {
+            "title": "Menu",
+            "description": "A navigation menu.",
+            "type": "object",
+            "properties": {
+                "title": { "type": "string" },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "string" },
+                            "label": { "type": "string" },
+                            "path": { "type": "string" },
+                            "order": { "type": "number" },
+                            "isGroup": { "type": "boolean" },
+                            "children": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/entities/menu/properties/links/items"
+                                }
+                            }
+                        },
+                        "required": ["id", "label", "order"]
+                    }
+                }
+            }
+        },
+        "settings": {
+            "title": "Global Settings",
+            "description": "Site-wide settings.",
+            "type": "object",
+            "properties": {
+                "siteTitle": { "type": "string" },
+                "siteDescription": { "type": "string" },
+                "siteLogoUrl": { "type": "string", "format": "uri" },
+                "faviconUrl": { "type": "string", "format": "uri" },
+                "googleAnalyticsId": { "type": "string" },
+                "socialTwitter": { "type": "string", "format": "uri" },
+                "socialFacebook": { "type": "string", "format": "uri" },
+                "socialInstagram": { "type": "string", "format": "uri" },
+                "socialLinkedin": { "type": "string", "format": "uri" },
+                "socialYoutube": { "type": "string", "format": "uri" },
+                "customHeadContent": { "type": "string" },
+                "copyrightText": { "type": "string", "description": "Custom copyright text for the footer." },
+                "currency": { "type": "string", "description": "The currency symbol for product prices (e.g., $, €, £)." }
+            }
+        },
+        "contactSettings": {
+            "title": "Contact Settings",
+            "description": "Settings for the contact page.",
+            "type": "object",
+            "properties": {
+                "email": { "type": "string", "format": "email" },
+                "phone": { "type": "string" },
+                "address": { "type": "string" }
+            }
+        },
+        "notificationPopup": {
+            "title": "Notification Popup",
+            "description": "Settings for a global notification pop-up.",
+            "type": "object",
+            "properties": {
+                "enabled": { "type": "boolean" },
+                "title": { "type": "string" },
+                "message": { "type": "string" },
+                "ctaText": { "type": "string" },
+                "ctaLink": { "type": "string" },
+                "delaySeconds": { "type": "number" },
+                "dismissalDuration": { "type": "string", "enum": ["session", "day", "week"] },
+                "icon": { "type": "string" },
+                "imageUrl": { "type": "string" },
+                "imageHint": { "type": "string" }
+            }
+        },
+        "marquee": {
+            "title": "Marquee Settings",
+            "description": "Settings for the top scrolling banner.",
+            "type": "object",
+            "properties": {
+                "enabled": { "type": "boolean" },
+                "speed": { "type": "number" },
+                "direction": { "type": "string", "enum": ["left", "right"] },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "string" },
+                            "text": { "type": "string" },
+                            "icon": { "type": "string" }
+                        },
+                        "required": ["id", "text"]
+                    }
+                }
+            }
+        },
+        "homePage": {
+            "title": "Home Page",
+            "description": "Block-based content for the homepage.",
+            "type": "object",
+            "properties": {
+                "seoTitle": { "type": "string" },
+                "seoDescription": { "type": "string" },
+                "canonicalUrl": { "type": "string" },
+                "noIndex": { "type": "boolean" },
+                "author": { "type": "string" },
+                "publisher": { "type": "string" },
+                "blocks": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "string" },
+                            "type": { "type": "string", "enum": ["hero", "features", "cta", "testimonial", "posts", "gallery", "html", "divider", "expanding-cards", "contact", "logo-grid", "founder-note", "best-acf", "banner", "address", "community", "map", "newsletter", "leadership"] },
+                            "title": { "type": "string" },
+                            "subtitle": { "type": "string" },
+                            "ctaText": { "type": "string" },
+                            "ctaLink": { "type": "string" },
+                            "html": { "type": "string" },
+                            "selectionType": { "type": "string", "enum": ["latest", "favorite"] },
+                             "address": { "type": "string" },
+                            "mapImageUrl": { "type": "string" },
+                            "mapImageHint": { "type": "string" },
+                             "mapEmbedUrl": { "type": "string" },
+                            "socials": {
+                                "type": "object",
+                                "properties": {
+                                    "twitter": { "type": "string" },
+                                    "facebook": { "type": "string" },
+                                    "linkedin": { "type": "string" },
+                                    "website": { "type": "string" }
+                                }
+                            },
+                            "features": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "string" },
+                                        "icon": { "type": "string" },
+                                        "title": { "type": "string" },
+                                        "description": { "type": "string" }
+                                    }
+                                }
+                            },
+                             "members": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "string" },
+                                        "name": { "type": "string" },
+                                        "role": { "type": "string" },
+                                        "imageUrl": { "type": "string" },
+                                        "imageHint": { "type": "string" },
+                                        "linkedinUrl": { "type": "string" }
+                                    }
+                                }
+                            },
+                            "testimonials": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "string" },
+                                        "quote": { "type": "string" },
+                                        "name": { "type": "string" },
+                                        "company": { "type": "string" }
+                                    }
+                                }
+                            },
+                            "images": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "string" },
+                                        "url": { "type": "string" },
+                                        "alt": { "type": "string" }
+                                    }
+                                }
+                            },
+                             "cards": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": { "type": "string" },
+                                        "title": { "type": "string" },
+                                        "description": { "type": "string" },
+                                        "imageUrl": { "type": "string" },
+                                        "imageHint": { "type": "string" },
+                                        "detailsLink": { "type": "string" }
+                                    }
+                                }
+                            }
+                        },
+                        "required": ["id", "type"]
+                    }
+                }
+            }
+        },
+        "blogSettings": {
+            "title": "Blog Settings",
+            "description": "Settings for the blog listing page.",
+            "type": "object",
+            "properties": {
+                "listingType": {
+                    "type": "string",
+                    "enum": ["dynamic", "manual"],
+                    "description": "Determines how blogs are ordered."
+                },
+                "manualOrder": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An ordered list of post IDs for manual sorting."
+                },
+                "layout": {
+                    "type": "string",
+                    "enum": ["grid", "list"],
+                    "description": "The layout of the blog listing page."
+                }
+            }
+        },
+        "emailTemplate": {
+            "title": "Email Template",
+            "description": "A template for automated emails.",
+            "type": "object",
+            "properties": {
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "subject": { "type": "string" },
+                "body": { "type": "string" },
+                "placeholders": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["title", "subject", "body"]
+        },
+        "contact": {
+            "title": "Contact Submission",
+            "description": "A contact form submission.",
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string", "format": "email" },
+                "phone": { "type": "string" },
+                "company": { "type": "string" },
+                "subject": { "type": "string" },
+                "message": { "type": "string" },
+                "submittedAt": { "type": "string", "format": "date-time" }
+            },
+            "required": ["name", "email", "message", "submittedAt"]
+        },
+        "subscriber": {
+            "title": "Subscriber",
+            "description": "A newsletter subscriber.",
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string", "format": "email" },
+                "subscribedAt": { "type": "string", "format": "date-time" }
+            },
+            "required": ["name", "email", "subscribedAt"]
+        },
+        "redirect": {
+            "title": "Redirect",
+            "description": "A URL redirect.",
+            "type": "object",
+            "properties": {
+                "source": { "type": "string" },
+                "destination": { "type": "string" },
+                "type": { "type": "string", "enum": ["301", "302"] },
+                "openInNewTab": { "type": "boolean" }
+            },
+            "required": ["source", "destination", "type"]
+        },
+        "widget": {
+            "title": "Widget",
+            "description": "A reusable content widget.",
+            "type": "object",
+            "properties": {
+                "title": { "type": "string" },
+                "slug": { "type": "string" },
+                "content": { "type": "string" }
+            },
+            "required": ["title", "slug", "content"]
+        },
+        "coupon": {
+            "title": "Coupon",
+            "description": "A discount coupon.",
+            "type": "object",
+            "properties": {
+                "code": { "type": "string", "description": "The coupon code." },
+                "type": { "type": "string", "enum": ["percentage", "fixed"], "description": "The type of discount." },
+                "value": { "type": "number", "description": "The discount value." },
+                "status": { "type": "string", "enum": ["active", "inactive"], "description": "The status of the coupon." }
+            },
+            "required": ["code", "type", "value", "status"]
+        }
+    },
+    "auth": {
+        "providers": ["google.com"],
+        "customClaims": {
+            "role": {
+                "type": "string",
+                "enum": ["admin", "user"]
+            }
+        }
+    },
+    "firestore": {
+        "/users/{userId}": {
+            "schema": { "$ref": "#/entities/user" },
+            "description": "Stores user profile information."
+        },
+        "/pdfGallery/{pdfId}": {
+            "schema": { "$ref": "#/entities/pdf" },
+            "description": "Stores PDF documents for the gallery."
+        },
+        "/youtubeVideos/{videoId}": {
+            "schema": { "$ref": "#/entities/youtubeVideo" },
+            "description": "Stores YouTube video information for the gallery."
+        },
+        "/pages/{pageId}": {
+            "schema": { "$ref": "#/entities/page" },
+            "description": "Stores individual website pages."
+        },
+        "/posts/{postId}": {
+            "schema": { "$ref": "#/entities/post" },
+            "description": "Stores blog posts."
+        },
+         "/products/{productId}": {
+            "schema": { "$ref": "#/entities/product" },
+            "description": "Stores e-commerce products."
+        },
+        "/orders/{orderId}": {
+            "schema": { "$ref": "#/entities/order" },
+            "description": "Stores e-commerce orders."
+        },
+        "/adminMenu/{itemId}": {
+            "schema": { "$ref": "#/entities/adminMenu" },
+            "description": "Stores the links for the admin sidebar."
+        },
+        "/menus/{menuId}": {
+            "schema": { "$ref": "#/entities/menu" },
+            "description": "Stores navigation menus (e.g., 'header', 'footer')."
+        },
+        "/settings/global": {
+            "schema": { "$ref": "#/entities/settings" },
+            "description": "Stores global site settings in a single document."
+        },
+        "/settings/contact": {
+            "schema": { "$ref": "#/entities/contactSettings" },
+            "description": "Stores settings for the contact page."
+        },
+        "/settings/notificationPopup": {
+            "schema": { "$ref": "#/entities/notificationPopup" },
+            "description": "Stores settings for the global notification pop-up."
+        },
+        "/settings/marquee": {
+            "schema": { "$ref": "#/entities/marquee" },
+            "description": "Stores settings for the top scrolling banner."
+        },
+        "/settings/homepage": {
+            "schema": { "$ref": "#/entities/homePage" },
+            "description": "Stores block-based content for the homepage."
+        },
+        "/settings/blog": {
+            "schema": { "$ref": "#/entities/blogSettings" },
+            "description": "Stores settings for the blog page."
+        },
+        "/emailTemplates/{templateId}": {
+            "schema": { "$ref": "#/entities/emailTemplate" },
+            "description": "Stores email templates for automated sending."
+        },
+        "/contacts/{contactId}": {
+            "schema": { "$ref": "#/entities/contact" },
+            "description": "Stores contact form submissions."
+        },
+        "/subscribers/{subscriberId}": {
+            "schema": { "$ref": "#/entities/subscriber" },
+            "description": "Stores newsletter subscribers."
+        },
+        "/redirects/{redirectId}": {
+            "schema": { "$ref": "#/entities/redirect" },
+            "description": "Stores URL redirects."
+        },
+        "/widgets/{widgetId}": {
+            "schema": { "$ref": "#/entities/widget" },
+            "description": "Stores reusable content widgets."
+        },
+        "/coupons/{couponId}": {
+            "schema": { "$ref": "#/entities/coupon" },
+            "description": "Stores discount coupons."
+        }
+    }
+}

@@ -1,0 +1,58 @@
+diff --git a/node_modules/next/dist/server/lib/start-server.js b/node_modules/next/dist/server/lib/start-server.js
+index 4b953c2..88b4221 100644
+--- a/node_modules/next/dist/server/lib/start-server.js
++++ b/node_modules/next/dist/server/lib/start-server.js
+@@ -17,7 +17,7 @@ async function startServer(opts) {
+     const { port, hostname, protocol } = server;
+     const appUrl = `${protocol}://${hostname}:${port}`;
+     if (opts.dev) {
+-        server.hotReloader.initialBuildError = await getInitialBuildError(port, opts.dir);
++        // server.hotReloader.initialBuildError = await getInitialBuildError(port, opts.dir);
+         if (opts.useWorkers) {
+             opts.fsChecker.ensureCallback(async (item)=>{
+                 if (item.action === "added" || item.action === "removed") {
+diff --git a/node_modules/next/dist/server/next-server.js b/node_modules/next/dist/server/next-server.js
+index b56c6c7..169c9b9 100644
+--- a/node_modules/next/dist/server/next-server.js
++++ b/node_modules/next/dist/server/next-server.js
+@@ -536,9 +536,12 @@ class NextServer {
+                     if ((ref = req.headers.host) == null ? void 0 : ref.includes(this.hostname)) {
+                         return;
+                     }
+-                    if (!this.nextConfig.devIndicators.buildActivity) {
+-                        return;
+-                    }
++                    // TODO: remove this in the future
++                    // For now, this is a workaround to allow cross-origin requests
++                    // from the local development environment.
++                    // if (!this.nextConfig.devIndicators.buildActivity) {
++                    //    return;
++                    // }
+                     if (this.nextConfig.experimental.allowedDevOrigins) {
+                         const allowedOrigins = Array.isArray(this.nextConfig.experimental.allowedDevOrigins) ? this.nextConfig.experimental.allowedDevOrigins : [
+                             this.nextConfig.experimental.allowedDevOrigins, 
+diff --git a/node_modules/next/dist/server/web-server.js b/node_modules/next/dist/server/web-server.js
+index c55047b..993f350 100644
+--- a/node_modules/next/dist/server/web-server.js
++++ b/node_modules/next/dist/server/web-server.js
+@@ -207,13 +207,16 @@ class WebServer {
+                     if ((ref = request.headers.get("host")) == null ? void 0 : ref.includes(this.server.hostname)) {
+                         return;
+                     }
+-                    if (!this.server.nextConfig.devIndicators.buildActivity) {
+-                        return;
+-                    }
++                    // TODO: remove this in the future
++                    // For now, this is a workaround to allow cross-origin requests
++                    // from the local development environment.
++                    // if (!this.server.nextConfig.devIndicators.buildActivity) {
++                    //     return;
++                    // }
+                     if (this.server.nextConfig.experimental.allowedDevOrigins) {
+                         const allowedOrigins = Array.isArray(this.server.nextConfig.experimental.allowedDevOrigins) ? this.server.nextConfig.experimental.allowedDevOrigins : [
+                             this.server.nextConfig.experimental.allowedDevOrigins, 
+-                        ];
++                        ];  
+                         const origin = request.headers.get("origin");
+                         if (origin && !allowedOrigins.includes(origin)) {
+                             this.log.error(`Invalid origin '${origin}'. Allowed origins are: ${allowedOrigins.join(", ")}`);

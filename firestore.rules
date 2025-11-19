@@ -1,0 +1,130 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /** Utility Functions **/
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    function isAdmin() {
+      // The master admin email OR a user with the 'admin' custom claim.
+      return isSignedIn() && (request.auth.token.email == "harshsharmaqa@gmail.com" || request.auth.token.role == 'admin');
+    }
+    
+    function isOrderOwner() {
+      return isOwner(resource.data.userId);
+    }
+
+    /** USERS **/
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      // Allow create only if the user is creating their own document.
+      allow create: if isOwner(userId) && request.resource.data.uid == userId;
+      allow update: if isExistingOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    /** PAGES **/
+    match /pages/{pageId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /** POSTS **/
+    match /posts/{postId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    /** PRODUCTS **/
+    match /products/{productId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /** ORDERS **/
+    match /orders/{orderId} {
+      allow create: if true;
+      allow get: if isOrderOwner() || isAdmin();
+      allow list: if (request.auth != null && request.query.where.userId == request.auth.uid) || isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    /** MENUS **/
+    match /menus/{menuId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /** SETTINGS **/
+    match /settings/{settingId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /** CONTACTS **/
+    match /contacts/{contactId} {
+      allow get, list: if isAdmin();
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    /** SUBSCRIBERS **/
+    match /subscribers/{subscriberId} {
+      allow get, list: if isAdmin();
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    /** REDIRECTS **/
+    match /redirects/{redirectId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /** WIDGETS **/
+    match /widgets/{widgetId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    /** EMAIL TEMPLATES **/
+    match /emailTemplates/{templateId} {
+      allow get, list, create, update, delete: if isAdmin();
+    }
+    
+    /** ADMIN MENU **/
+    match /adminMenu/{itemId} {
+      allow get, list, create, update, delete: if isAdmin();
+    }
+
+    /** PDF GALLERY **/
+    match /pdfGallery/{pdfId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /** YOUTUBE VIDEOS **/
+    match /youtubeVideos/{videoId} {
+        allow get, list: if true;
+        allow create, update, delete: if isAdmin();
+    }
+    
+    /** COUPONS **/
+    match /coupons/{couponId} {
+      allow get, list, create, update, delete: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,8 @@
+declare module 'nodemailer' {
+  export interface Transporter {
+    sendMail(mailOptions: any): Promise<any>;
+    close(): void;
+  }
+
+  export function createTransport(options: any): Transporter;
+}
